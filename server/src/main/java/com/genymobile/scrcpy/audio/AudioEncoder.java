@@ -266,13 +266,13 @@ public final class AudioEncoder implements AsyncProcessor {
             outputThread.start();
 
             waitEnded();
-        } catch (ConfigurationException e) {
-            // Notify the error to make scrcpy exit
-            streamer.writeDisableStream(true);
-            throw e;
-        } catch (Throwable e) {
+        } catch (AudioCaptureException e) {
             // Notify the client that the audio could not be captured
             streamer.writeDisableStream(false);
+            throw e;
+        } catch (Throwable e) {
+            // Notify the error to make scrcpy exit
+            streamer.writeDisableStream(true);
             throw e;
         } finally {
             // Cleanup everything (either at the end or on error at any step of the initialization)
