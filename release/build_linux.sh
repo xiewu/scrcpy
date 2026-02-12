@@ -22,9 +22,12 @@ app/deps/libusb.sh linux native static
 DEPS_INSTALL_DIR="$PWD/app/deps/work/install/linux-native-static"
 ADB_INSTALL_DIR="$PWD/app/deps/work/install/adb-linux"
 
+# Never fall back to system libs
+unset PKG_CONFIG_PATH
+export PKG_CONFIG_LIBDIR="$DEPS_INSTALL_DIR/lib/pkgconfig"
+
 rm -rf "$LINUX_BUILD_DIR"
 meson setup "$LINUX_BUILD_DIR" \
-    --pkg-config-path="$DEPS_INSTALL_DIR/lib/pkgconfig" \
     -Dc_args="-I$DEPS_INSTALL_DIR/include" \
     -Dc_link_args="-L$DEPS_INSTALL_DIR/lib" \
     --buildtype=release \

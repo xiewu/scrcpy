@@ -29,9 +29,12 @@ app/deps/libusb.sh $WINXX cross shared
 DEPS_INSTALL_DIR="$PWD/app/deps/work/install/$WINXX-cross-shared"
 ADB_INSTALL_DIR="$PWD/app/deps/work/install/adb-windows"
 
+# Never fall back to system libs
+unset PKG_CONFIG_PATH
+export PKG_CONFIG_LIBDIR="$DEPS_INSTALL_DIR/lib/pkgconfig"
+
 rm -rf "$WINXX_BUILD_DIR"
 meson setup "$WINXX_BUILD_DIR" \
-    --pkg-config-path="$DEPS_INSTALL_DIR/lib/pkgconfig" \
     -Dc_args="-I$DEPS_INSTALL_DIR/include" \
     -Dc_link_args="-L$DEPS_INSTALL_DIR/lib" \
     --cross-file=cross_$WINXX.txt \
