@@ -67,7 +67,8 @@ sc_packet_source_sinks_push_session(struct sc_packet_source *source,
     assert(source->sink_count);
     for (unsigned i = 0; i < source->sink_count; ++i) {
         struct sc_packet_sink *sink = source->sinks[i];
-        if (!sink->ops->push_session(sink, session)) {
+        if (sink->ops->push_session
+                && !sink->ops->push_session(sink, session)) {
             return false;
         }
     }
